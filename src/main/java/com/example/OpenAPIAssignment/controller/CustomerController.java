@@ -19,6 +19,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -31,6 +32,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Tag(name = "Customer APIs",
 description = "APIs for managing customers")
 @RestController
+@Slf4j
 public class CustomerController {
 	@Operation(summary = "Get all Customers",
 			description = "Retrieves a list of all customers from the system")
@@ -60,7 +62,8 @@ public class CustomerController {
 	//public  CustomerDTO getCustomers() {
 		public List<CustomerDTO> getCustomers(){
 	    CustomerDTO customer1 = new CustomerDTO();
-
+	     //log.info("Getting all customers");
+	    log.info("Customer operation - action=getAll");
 	    customer1.setCustomerId(101L);
 	    customer1.setName("Gopi");
 	    customer1.setEmail("gopi@gmail.com");
@@ -116,8 +119,10 @@ public class CustomerController {
 	@PostMapping("/api/customers")
 	public CustomerDTO createCustomer(
 	        @Valid @RequestBody CustomerDTO customer) {
-
-	    return customer;
+		   // log.info("Creating a new customer");
+		    log.info("Customer operation -action=create ");
+		    
+	        return customer;
 	}
 	
 	
@@ -190,7 +195,7 @@ public class CustomerController {
 		})
 		@GetMapping("/api/customers/search")
 		public List<CustomerDTO> searchCustomers(
-
+           
 		        @Parameter(
 		            description = "Name of the customer to search",
 		            example = "Gopi",
@@ -199,7 +204,8 @@ public class CustomerController {
 		        @RequestParam String name) {
 
 		    CustomerDTO customer = new CustomerDTO();
-
+		   // log.info("Searching customers by name");
+		    log.info("Customer operation -action=search");
 		    customer.setCustomerId(101L);
 		    customer.setName(name);
 		    customer.setEmail("gopi@gmail.com");
@@ -247,7 +253,8 @@ public class CustomerController {
 		        @PathVariable Long id,
 
 		        @Valid @RequestBody CustomerDTO customer) {
-
+		  //  log.info("Customer lookup - customerId={}", id);
+		    log.info("Customer operation - action=update, customerId={}", id);
 		    customer.setCustomerId(id);
 
 		    return customer;
@@ -282,7 +289,9 @@ public class CustomerController {
 		        )
 		        @PathVariable Long id) {
 
-		    System.out.println("Customer " + id + " deleted successfully");
+		    //System.out.println("Customer " + id + " deleted successfully");
+		//log.info("Customer {} deleted successfully", id);
+		log.info("Customer operation-action=delete,customerId={}", id);
 		}
 
 }
